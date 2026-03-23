@@ -1,4 +1,4 @@
-# Nexus Dashboard
+# Zenith Launcher
 
 This is the dashboard for the Nexus system.
 
