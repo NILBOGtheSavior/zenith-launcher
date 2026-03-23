@@ -1,9 +1,13 @@
+<script lang="ts">
+    import ZnTile from "$lib/components/zn-tile.svelte";
+</script>
+
 <div class="zn">
     <div class="zn-wordmark">zenith</div>
 
-    <div class="nx-search">
+    <div class="zn-search">
         <svg
-            class="nx-search-icon"
+            class="zn-search-icon"
             viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -12,49 +16,27 @@
                 cx="6.5"
                 cy="6.5"
                 r="4.5"
-                stroke="#e8e6e0"
+                stroke="var(--comment)"
                 stroke-width="1.2"
             />
             <path
                 d="M10.5 10.5L14 14"
-                stroke="#e8e6e0"
+                stroke="var(--comment)"
                 stroke-width="1.2"
                 stroke-linecap="round"
             />
         </svg>
         <input placeholder="search or type a command..." id="search-input" />
-        <span class="nx-search-tag">/ cmd</span>
+        <span class="zn-search-tag">/ cmd</span>
     </div>
 
-    <div class="nx-grid">
-        <a class="nx-tile" href="#">
-            <div class="nx-tile-head">
-                <span class="nx-tile-icon">HA</span>
-                <span class="nx-tile-dot dot-online"></span>
-            </div>
-            <div class="nx-tile-name">Home Assistant</div>
-        </a>
-        <a class="nx-tile" href="#">
-            <div class="nx-tile-head">
-                <span class="nx-tile-icon">ND</span>
-                <span class="nx-tile-dot dot-online"></span>
-            </div>
-            <div class="nx-tile-name">Navidrome</div>
-        </a>
-        <a class="nx-tile" href="#">
-            <div class="nx-tile-head">
-                <span class="nx-tile-icon">IM</span>
-                <span class="nx-tile-dot dot-online"></span>
-            </div>
-            <div class="nx-tile-name">Immich</div>
-        </a>
-        <a class="nx-tile" href="#">
-            <div class="nx-tile-head">
-                <span class="nx-tile-icon">BK</span>
-                <span class="nx-tile-dot dot-warn"></span>
-            </div>
-            <div class="nx-tile-name">Booklore</div>
-        </a>
+    <div class="zn-grid">
+        <ZnTile icon="HA" name="Home Assistant" url="#" />
+        <ZnTile icon="ND" name="Navidrome" url="#" />
+        <ZnTile icon="PH" name="PiHole" url="#" />
+        <ZnTile icon="IM" name="Immich" url="#" />
+        <ZnTile icon="BK" name="Booklore" url="#" />
+        <ZnTile icon="MS" name="Mainsail" url="#" />
     </div>
 
     <div class="nx-row">
