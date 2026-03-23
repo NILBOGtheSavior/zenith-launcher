@@ -1,4 +1,5 @@
 <script lang="ts">
+    import ZnBookmark from "$lib/components/zn-bookmark.svelte";
     import ZnTile from "$lib/components/zn-tile.svelte";
 </script>
 
@@ -37,6 +38,19 @@
         <ZnTile icon="IM" name="Immich" url="#" />
         <ZnTile icon="BK" name="Booklore" url="#" />
         <ZnTile icon="MS" name="Mainsail" url="#" />
+    </div>
+
+    <div class="zn-grid">
+        <ZnBookmark name="GitHub" url="https://github.com/" />
+        <ZnBookmark name="GitLab" url="https://gitlab.com/" />
+        <ZnBookmark name="Stack Overflow" url="https://stackoverflow.com/" />
+        <ZnBookmark name="YouTube" url="https://youtube.com/" />
+        <ZnBookmark name="Reddit" url="https://reddit.com/" />
+        <ZnBookmark name="Hacker News" url="https://news.ycombinator.com/" />
+        <ZnBookmark
+            name="Mozilla Developer"
+            url="https://developer.mozilla.org/"
+        />
     </div>
 
     <div class="nx-row">
@@ -164,17 +178,17 @@
     </div>
 
     <div class="zn-footer">
-        <div class="nx-footer-group">
-            <span class="nx-footer-lbl">MATRIX</span>
-            <div class="nx-toggle on" id="matrix-toggle">
-                <div class="nx-toggle-thumb"></div>
+        <div class="zn-footer-group">
+            <span class="zn-footer-lbl">matrix</span>
+            <div class="zn-toggle on" id="matrix-toggle">
+                <div class="zn-toggle-thumb"></div>
             </div>
         </div>
-        <div class="nx-footer-group">
-            <span class="nx-footer-lbl">BRIGHT</span>
-            <div class="nx-slider-wrap">
+        <div class="zn-footer-group">
+            <span class="zn-footer-lbl">brightness</span>
+            <div class="zn-slider-wrap">
                 <input
-                    class="nx-slider"
+                    class="zn-slider"
                     type="range"
                     min="0"
                     max="100"
