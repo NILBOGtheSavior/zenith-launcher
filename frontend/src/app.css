@@ -18,7 +18,7 @@
 }
 
 body {
-    background-image: url(wallpaper.jpg);
+    background-image: url(img/wallpaper.jpg);
     background-size: cover;
     background-position: center;
     min-height: 100vh;
@@ -54,11 +54,10 @@ body {
 .zn-wordmark::before {
     content: "";
     display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #5dcaa5;
-    box-shadow: 0 0 8px rgba(93, 202, 165, 0.6);
+    width: 16px;
+    height: 16px;
+    background-image: url("img/zenith-logo.svg");
+    background-size: contain;
 }
 
 /*********************************************/
