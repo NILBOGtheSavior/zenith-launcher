@@ -1,15 +1,15 @@
 {
-  "name": "zenith-launcher",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-      "dev:frontend": "pnpm --filter frontend dev",
-      "dev:backend": "pnpm --filter backend dev",
-      "dev": "pnpm run dev:frontend & dev:backend"
-  },
-  "keywords": [],
-  "author": "NILBOGtheSavior",
-  "license": "ISC",
-  "packageManager": "pnpm@10.32.1"
+    "name": "zenith-launcher",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev:frontend": "pnpm --filter frontend dev",
+        "dev:backend": "pnpm --filter backend dev",
+        "dev": "pnpm run dev:frontend & pnpm run dev:backend"
+    },
+    "keywords": [],
+    "author": "NILBOGtheSavior",
+    "license": "ISC",
+    "packageManager": "pnpm@10.32.1"
 }
