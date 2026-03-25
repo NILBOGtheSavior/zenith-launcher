@@ -1,16 +1,36 @@
 <script lang="ts">
-    let { name, url } = $props();
+    let { name, url = undefined, onclick = undefined } = $props();
 </script>
 
-<a class="zn-bookmark" href="https://{url}/">
-    <span class="zn-bookmark-icon">
-        <img
-            src="https://icons.duckduckgo.com/ip3/{url}.ico"
-            alt="{name} icon"
-        />
-    </span>
-    <div class="zn-bookmark-name">{name}</div>
-</a>
+{#if onclick}
+    <button class="zn-bookmark" {onclick}>
+        <span class="zn-bookmark-icon">
+            <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M8 3v10M3 8h10"
+                    stroke="var(--foreground)"
+                    stroke-width="1.2"
+                    stroke-linecap="round"
+                />
+            </svg>
+        </span>
+        <div class="zn-bookmark-name">{name}</div>
+    </button>
+{:else}
+    <a class="zn-bookmark" href="https://{url}/">
+        <span class="zn-bookmark-icon">
+            <img
+                src="https://icons.duckduckgo.com/ip3/{url}.ico"
+                alt="{name} icon"
+            />
+        </span>
+        <div class="zn-bookmark-name">{name}</div>
+    </a>
+{/if}
 
 <style>
     .zn-bookmark {
@@ -34,6 +54,7 @@
     }
 
     .zn-bookmark-icon {
+        color: var(--comment);
         width: 15px;
         height: 15px;
     }

@@ -4,6 +4,31 @@
     import ZnNowPlaying from "$lib/components/zn-now-playing.svelte";
     import ZnSystemInfo from "$lib/components/zn-system-info.svelte";
     import ZnTile from "$lib/components/zn-tile.svelte";
+
+    import { onMount } from "svelte";
+    import { apiFetch } from "$lib/api.js";
+
+    let bookmarks = $state<
+        { id: number; url: string; title: string; tags: string }[]
+    >([]);
+
+    onMount(async () => {
+        const { data } = await apiFetch("/bookmarks");
+        bookmarks = data;
+    });
+
+    async function addBookmark() {
+        console.log("Button clicked");
+        await apiFetch("/bookmarks", {
+            method: "POST",
+            body: JSON.stringify({
+                url: "https://example.com",
+                title: "Example",
+            }),
+        });
+        const { data } = await apiFetch("/bookmarks");
+        bookmarks = data;
+    }
 </script>
 
 <div class="zn">
@@ -43,6 +68,9 @@
     </div>
 
     <div class="zn-grid">
+        {#each bookmarks as bookmark}
+            <ZnBookmark name={bookmark.title} url={bookmark.url} />
+        {/each}
         <ZnBookmark name="GitHub" url="github.com" />
         <ZnBookmark name="GitLab" url="gitlab.com" />
         <ZnBookmark name="Stack Overflow" url="stackoverflow.com" />
@@ -50,7 +78,7 @@
         <ZnBookmark name="Reddit" url="reddit.com" />
         <ZnBookmark name="Hacker News" url="news.ycombinator.com" />
         <ZnBookmark name="Mozilla Developer" url="developer.mozilla.org" />
-        <ZnBookmark name="Crunchyroll" url="crunchyroll.com" />
+        <ZnBookmark name="Add Bookmark" onclick={addBookmark} />
     </div>
 
     <div class="zn-row">

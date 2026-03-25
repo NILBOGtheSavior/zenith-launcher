@@ -3,14 +3,18 @@
 
     const date = new SvelteDate();
 
-    const time_f = new Intl.DateTimeFormat(undefined, {
-        hour: "numeric",
-        minute: "numeric",
-    }).format(date);
+    const time_f = $derived(
+        new Intl.DateTimeFormat(undefined, {
+            hour: "numeric",
+            minute: "numeric",
+        }).format(date),
+    );
 
-    const date_f = new Intl.DateTimeFormat(undefined, {
-        dateStyle: "full",
-    }).format(date);
+    const date_f = $derived(
+        new Intl.DateTimeFormat(undefined, {
+            dateStyle: "full",
+        }).format(date),
+    );
 
     $effect(() => {
         const interval = setInterval(() => {

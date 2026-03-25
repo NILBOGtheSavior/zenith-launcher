@@ -13,6 +13,8 @@
 *,
 *::before,
 *::after {
+    outline: none;
+    border: none;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -140,6 +142,15 @@ body {
     background: var(--background);
     border-radius: 10px;
     padding: 16px;
+}
+
+button.zn-card {
+    border: 1px solid transparent;
+    transition: border-color 0.15s;
+}
+
+button.zn-card:hover {
+    border-color: var(--comment);
 }
 
 .zn-card-label {
