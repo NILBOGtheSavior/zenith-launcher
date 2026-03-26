@@ -42,6 +42,13 @@ body {
     backdrop-filter: blur(15px);
 }
 
+.zn-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
 .zn-wordmark {
     font-family: "JetBrains Mono", monospace;
     font-size: 11px;
@@ -49,7 +56,6 @@ body {
     letter-spacing: 0.2em;
     color: var(--accent);
     text-transform: uppercase;
-    margin-bottom: 28px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -62,6 +68,55 @@ body {
     height: 16px;
     background-image: url("img/zenith-logo.svg");
     background-size: contain;
+}
+
+.zn-settings {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: solid 1px transparent;
+    border-radius: 20px;
+    padding: 5px;
+    transition:
+        border-color 0.3s ease;
+}
+
+.zn-settings:hover {
+    border-color: var(--comment);
+}
+
+.zn-settings-icon {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.zn-settings-tray {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    max-width: 0;
+    overflow: hidden;
+    transition:
+        max-width 0.3s ease,
+        opacity 0.3s ease;
+    opacity: 0;
+}
+
+.zn-settings-tray>* {
+    flex-shrink: 0;
+}
+
+.zn-settings:hover .zn-settings-tray {
+    max-width: 200px;
+    opacity: 1;
+}
+
+.zn-lbl {
+    font-size: 10px;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--comment);
+    letter-spacing: 0.1em;
 }
 
 /*********************************************/
@@ -199,35 +254,6 @@ button.zn-card:hover {
 /*********************************************/
 
 /* These should be modularized at some point */
-
-.zn-toggle {
-    position: relative;
-    width: 32px;
-    height: 17px;
-    background: var(--background);
-    border: 1px solid var(--comment);
-    border-radius: 9px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.zn-toggle-thumb {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--foreground);
-    transition:
-        transform 0.2s,
-        background 0.2s;
-}
-
-.zn-toggle.on .zn-toggle-thumb {
-    transform: translateX(15px);
-    background: var(--accent);
-}
 
 .zn-slider-wrap {
     display: flex;
