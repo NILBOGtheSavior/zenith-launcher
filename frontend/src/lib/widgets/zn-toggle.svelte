@@ -6,7 +6,12 @@
     }
 </script>
 
-<button class="zn-toggle" class:on={active} onclick={toggle} title="toggle">
+<button
+    class="zn-toggle"
+    class:on={active}
+    onclick={toggle}
+    title="Toggle {active ? 'off' : 'on'}"
+>
     <div class="zn-toggle-thumb"></div>
 </button>
 

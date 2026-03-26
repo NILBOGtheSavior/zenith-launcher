@@ -4,11 +4,14 @@
     import ZnNowPlaying from "$lib/components/zn-now-playing.svelte";
     import ZnSystemInfo from "$lib/components/zn-system-info.svelte";
     import ZnTile from "$lib/components/zn-tile.svelte";
+    import ZnAddBookmark from "$lib/modal/zn-bookmark.modal.svelte";
 
     import { onMount } from "svelte";
     import { apiFetch } from "$lib/api.js";
     import ZnToggle from "$lib/widgets/zn-toggle.svelte";
     import { editMode } from "$lib/stores.js";
+
+    let modalOpen = $state(false);
 
     let bookmarks = $state<
         { id: number; url: string; title: string; tags: string }[]
@@ -19,13 +22,13 @@
         bookmarks = data;
     });
 
-    async function addBookmark() {
+    async function addBookmark({ url, name }: { url: string; name: string }) {
         console.log("Button clicked");
         await apiFetch("/bookmarks", {
             method: "POST",
             body: JSON.stringify({
-                url: "https://example.com",
-                title: "Example",
+                url,
+                title: name,
             }),
         });
         const { data } = await apiFetch("/bookmarks");
@@ -102,15 +105,11 @@
                 onremove={() => removeBookmark(bookmark.id)}
             />
         {/each}
-        <ZnBookmark name="GitHub" url="github.com" />
-        <ZnBookmark name="GitLab" url="gitlab.com" />
-        <ZnBookmark name="Stack Overflow" url="stackoverflow.com" />
-        <ZnBookmark name="YouTube" url="youtube.com" />
-        <ZnBookmark name="Reddit" url="reddit.com" />
-        <ZnBookmark name="Hacker News" url="news.ycombinator.com" />
-        <ZnBookmark name="Mozilla Developer" url="developer.mozilla.org" />
         {#if $editMode}
-            <ZnBookmark name="Add Bookmark" onclick={addBookmark} />
+            <ZnBookmark
+                name="Add Bookmark"
+                onclick={() => (modalOpen = true)}
+            />
         {/if}
     </div>
 
@@ -143,3 +142,8 @@
         <span class="zn-footer-id">zenith · local</span>
     </div>
 </div>
+<ZnAddBookmark
+    open={modalOpen}
+    onclose={() => (modalOpen = false)}
+    onsubmit={addBookmark}
+/>

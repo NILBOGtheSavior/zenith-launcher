@@ -35,7 +35,7 @@
                     e.preventDefault();
                     onremove?.();
                 }}
-                title="remove-btn"
+                title="Remove {name}"
             >
                 <svg
                     class="zn-remove-icon"
