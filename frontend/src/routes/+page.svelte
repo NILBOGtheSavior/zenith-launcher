@@ -5,6 +5,7 @@
     import ZnSystemInfo from "$lib/components/zn-system-info.svelte";
     import ZnTile from "$lib/components/zn-tile.svelte";
     import ZnAddBookmark from "$lib/modal/zn-bookmark.modal.svelte";
+    import ZnSearch from "$lib/components/zn-search.svelte";
 
     import { onMount } from "svelte";
     import { apiFetch } from "$lib/api.js";
@@ -63,30 +64,8 @@
             >
         </div>
     </div>
-    <div class="zn-search">
-        <svg
-            class="zn-search-icon"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <circle
-                cx="6.5"
-                cy="6.5"
-                r="4.5"
-                stroke="var(--comment)"
-                stroke-width="1.2"
-            />
-            <path
-                d="M10.5 10.5L14 14"
-                stroke="var(--comment)"
-                stroke-width="1.2"
-                stroke-linecap="round"
-            />
-        </svg>
-        <input placeholder="search or type a command..." id="search-input" />
-        <span class="zn-search-tag">/ cmd</span>
-    </div>
+    
+    <ZnSearch />
 
     <div class="zn-grid">
         <ZnTile icon="HA" name="Home Assistant" url="#" />
