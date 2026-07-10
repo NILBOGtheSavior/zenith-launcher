@@ -1,2 +1,0 @@
-FROM node:24
-EXPOSE 8080
