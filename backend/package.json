@@ -14,7 +14,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.32.1",
   "dependencies": {
-    "better-sqlite3": "^12.8.0",
+    "better-sqlite3": "^12.11.1",
     "express": "^5.2.1"
   },
   "devDependencies": {
