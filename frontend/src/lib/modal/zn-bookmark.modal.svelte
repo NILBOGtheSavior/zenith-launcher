@@ -18,7 +18,6 @@
     <input class="zn-input" placeholder="URL" bind:value={url} />
     <input class="zn-input" placeholder="Name (optional)" bind:value={name} />
     <div class="zn-modal-actions">
-        <button class="zn-btn-ghost" onclick={onclose}>Cancel</button>
         <button class="zn-btn-accent" onclick={handleSubmit}>Add</button>
     </div>
 </ZnModal>

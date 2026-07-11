@@ -1,46 +1,15 @@
 <script lang="ts">
-    import ZnBookmark from "$lib/components/zn-bookmark.svelte";
     import ZnClock from "$lib/components/zn-clock.svelte";
     import ZnNowPlaying from "$lib/components/zn-now-playing.svelte";
     import ZnSystemInfo from "$lib/components/zn-system-info.svelte";
-    import ZnTile from "$lib/components/zn-tile.svelte";
-    import ZnAddBookmark from "$lib/modal/zn-bookmark.modal.svelte";
     import ZnSearch from "$lib/components/zn-search.svelte";
 
-    import { onMount } from "svelte";
-    import { apiFetch } from "$lib/api.js";
+    import ZnService from "$lib/sections/zn-service.section.svelte";
+    import ZnBookmark from "$lib/sections/zn-bookmark.section.svelte";
+
     import ZnToggle from "$lib/widgets/zn-toggle.svelte";
     import { editMode } from "$lib/stores.js";
 
-    let modalOpen = $state(false);
-
-    let bookmarks = $state<
-        { id: number; url: string; title: string; tags: string }[]
-    >([]);
-
-    onMount(async () => {
-        const { data } = await apiFetch("/bookmarks");
-        bookmarks = data;
-    });
-
-    async function addBookmark({ url, name }: { url: string; name: string }) {
-        console.log("Button clicked");
-        await apiFetch("/bookmarks", {
-            method: "POST",
-            body: JSON.stringify({
-                url,
-                title: name,
-            }),
-        });
-        const { data } = await apiFetch("/bookmarks");
-        bookmarks = data;
-    }
-
-    async function removeBookmark(id: number) {
-        await apiFetch(`/bookmarks/${id}`, { method: "DELETE" });
-        const { data } = await apiFetch("/bookmarks");
-        bookmarks = data;
-    }
 </script>
 
 <div class="zn">
@@ -64,33 +33,10 @@
             >
         </div>
     </div>
-    
+
     <ZnSearch />
-
-    <div class="zn-grid">
-        <ZnTile icon="HA" name="Home Assistant" url="#" />
-        <ZnTile icon="ND" name="Navidrome" url="#" />
-        <ZnTile icon="PH" name="PiHole" url="#" />
-        <ZnTile icon="IM" name="Immich" url="#" />
-        <ZnTile icon="BK" name="Booklore" url="#" />
-        <ZnTile icon="MS" name="Mainsail" url="#" />
-    </div>
-
-    <div class="zn-grid">
-        {#each bookmarks as bookmark}
-            <ZnBookmark
-                name={bookmark.title}
-                url={bookmark.url}
-                onremove={() => removeBookmark(bookmark.id)}
-            />
-        {/each}
-        {#if $editMode}
-            <ZnBookmark
-                name="Add Bookmark"
-                onclick={() => (modalOpen = true)}
-            />
-        {/if}
-    </div>
+    <ZnService />
+    <ZnBookmark />
 
     <div class="zn-row">
         <ZnNowPlaying />
@@ -121,8 +67,3 @@
         <span class="zn-footer-id">zenith · local</span>
     </div>
 </div>
-<ZnAddBookmark
-    open={modalOpen}
-    onclose={() => (modalOpen = false)}
-    onsubmit={addBookmark}
-/>

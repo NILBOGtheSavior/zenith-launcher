@@ -5,6 +5,7 @@ services:
       dockerfile: backend/Dockerfile
     volumes:
       - ${ZENITH_DATA_PATH:-./backend/data}:/app/backend/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
