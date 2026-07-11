@@ -19,6 +19,14 @@ title      TEXT,
 tags       TEXT,
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE IF NOT EXISTS services (
+id           INTEGER PRIMARY KEY AUTOINCREMENT,
+container_name TEXT NOT NULL,
+name         TEXT NOT NULL,
+url          TEXT,
+icon         TEXT,
+created_at   DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 `);
   console.log("Database initialized successfully");
 } catch (err) {
