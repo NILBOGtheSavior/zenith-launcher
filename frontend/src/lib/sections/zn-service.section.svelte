@@ -2,7 +2,7 @@
     import ZnService from "$lib/components/zn-service.svelte";
     import ZnAddService from "$lib/modal/zn-service.modal.svelte";
 
-    import { onMount } from "svelte";
+    import { onMount, onDestroy } from "svelte";
     import { apiFetch } from "$lib/api.js";
     import { editMode } from "$lib/stores.js";
 
@@ -15,18 +15,29 @@
         status: string;
     };
 
+    let refreshing = $state(false);
     let modalOpen = $state(false);
     let editingService = $state<Service | null>(null);
     let services = $state<Service[]>([]);
+    let pollInterval: ReturnType<typeof setInterval>;
 
     onMount(async () => {
-        const { data } = await apiFetch("/docker/services");
-        services = data;
+        await refresh();
+        pollInterval = setInterval(refresh, 15000);
     });
 
-    async function refresh() {
-        const { data } = await apiFetch("/docker/services");
-        services = data;
+    onDestroy(() => {
+        clearInterval(pollInterval);
+    });
+
+    export async function refresh() {
+        refreshing = true
+        try {
+            const { data } = await apiFetch("/docker/services");
+            services = data;
+        } finally {
+            refreshing = false;
+        }
     }
 
     function openCreate() {

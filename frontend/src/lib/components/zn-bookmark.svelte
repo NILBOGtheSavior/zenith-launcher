@@ -90,10 +90,6 @@
         display: none;
     }
 
-    .zn-bookmark.editing:hover .zn-edit-icon {
-        display: block;
-    }
-
     .zn-edit-btn {
         display: none;
         background: transparent;

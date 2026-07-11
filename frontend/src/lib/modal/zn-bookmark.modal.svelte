@@ -70,22 +70,6 @@
         margin-top: 4px;
     }
 
-    .zn-btn-ghost {
-        background: transparent;
-        color: var(--comment);
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        padding: 8px 14px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: color 0.15s;
-    }
-
-    .zn-btn-ghost:hover {
-        color: var(--foreground);
-    }
-
     .zn-btn-accent {
         background: var(--accent);
         color: var(--background);

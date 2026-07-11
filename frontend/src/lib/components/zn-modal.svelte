@@ -5,11 +5,13 @@
 
 {#if open}
     <div class="zn-overlay" use:portal>
+        <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
         <div
             class="zn-modal"
             onclick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
+            onkeydown={(e) => e.stopPropagation()}
+            role="document"
+            tabindex="-1"
         >
             <button
                 class="zn-modal-close"
