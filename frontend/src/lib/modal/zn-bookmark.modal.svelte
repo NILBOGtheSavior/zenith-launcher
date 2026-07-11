@@ -1,24 +1,44 @@
 <script lang="ts">
     import ZnModal from "$lib/components/zn-modal.svelte";
 
-    let { open = false, onclose, onsubmit } = $props();
+    let {
+        open = false,
+        editing = null,
+        onclose,
+        onsubmit,
+        ondelete
+    } = $props();
+
     let url = $state("");
     let name = $state("");
 
+    $effect(() => {
+        if (open) {
+            url = editing?.url ?? "";
+            name = editing?.title ?? "";
+        }
+    });
+
     function handleSubmit() {
         if (!url) return;
-        onsubmit({ url, name });
-        url = "";
-        name = "";
+        onsubmit({ url, name, id: editing?.id });
+        onclose();
+    }
+
+    function handleDelete() {
+        ondelete?.(editing.id);
         onclose();
     }
 </script>
 
-<ZnModal {open} {onclose} title="Add Bookmark">
+<ZnModal {open} {onclose} title={editing ? "Edit Bookmark" : "Add Bookmark"}>
     <input class="zn-input" placeholder="URL" bind:value={url} />
     <input class="zn-input" placeholder="Name (optional)" bind:value={name} />
     <div class="zn-modal-actions">
-        <button class="zn-btn-accent" onclick={handleSubmit}>Add</button>
+        {#if editing}
+            <button class="zn-btn-danger" onclick={handleDelete}>Delete</button>
+        {/if}
+        <button class="zn-btn-accent" onclick={handleSubmit}>{editing ? "Save" : "Add"}</button>
     </div>
 </ZnModal>
 
@@ -80,5 +100,21 @@
 
     .zn-btn-accent:hover {
         opacity: 0.85;
+    }
+
+    .zn-btn-danger {
+        background: transparent;
+        color: var(--error);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: opacity 0.15s;
+    }
+
+    .zn-btn-danger:hover {
+        opacity: 0.7;
     }
 </style>

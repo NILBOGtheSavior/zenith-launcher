@@ -4,7 +4,7 @@
         name,
         url = undefined,
         onclick = undefined,
-        onremove = undefined,
+        onedit = undefined,
     } = $props();
 </script>
 
@@ -30,23 +30,14 @@
     <a class="zn-bookmark" href="https://{url}/" class:editing={$editMode}>
         <span class="zn-bookmark-icon">
             <button
-                class="zn-remove-btn"
+                class="zn-edit-btn"
                 onclick={(e) => {
                     e.preventDefault();
-                    onremove?.();
+                    onedit?.();
                 }}
-                title="Remove {name}"
+                title="Edit {name}"
             >
-                <svg
-                    class="zn-remove-icon"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    ><path
-                        d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2m3.36 12.3c.29.29.29.77 0 1.06a.7.7 0 01-.53.22.7.7 0 01-.53-.22l-2.3-2.3-2.3 2.3a.7.7 0 01-.53.22.7.7 0 01-.53-.22.75.75 0 010-1.06l2.3-2.3-2.3-2.3a.75.75 0 010-1.06.75.75 0 011.06 0l2.3 2.3 2.3-2.3a.75.75 0 011.06 0c.29.29.29.77 0 1.06l-2.3 2.3z"
-                        fill="var(--comment)"
-                    /></svg
-                >
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8.29289 3.70711L1 11V15H5L12.2929 7.70711L8.29289 3.70711Z" fill=var(--comment)></path> <path d="M9.70711 2.29289L13.7071 6.29289L15.1716 4.82843C15.702 4.29799 16 3.57857 16 2.82843C16 1.26633 14.7337 0 13.1716 0C12.4214 0 11.702 0.297995 11.1716 0.828428L9.70711 2.29289Z" fill=var(--comment)></path> </g></svg>
             </button>
             <img
                 src="https://icons.duckduckgo.com/ip3/{url}.ico"
@@ -95,15 +86,15 @@
         font-weight: 400;
     }
 
-    .zn-remove-btn {
+    .zn-edit-btn {
         display: none;
     }
 
-    .zn-bookmark.editing:hover .zn-remove-icon {
+    .zn-bookmark.editing:hover .zn-edit-icon {
         display: block;
     }
 
-    .zn-remove-btn {
+    .zn-edit-btn {
         display: none;
         background: transparent;
         cursor: pointer;
@@ -113,7 +104,7 @@
         height: 100%;
     }
 
-    .zn-bookmark.editing:hover .zn-remove-btn {
+    .zn-bookmark.editing:hover .zn-edit-btn {
         display: flex;
     }
 

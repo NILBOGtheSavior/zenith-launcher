@@ -1,40 +1,62 @@
 <script lang="ts">
     import ZnBookmark from "$lib/components/zn-bookmark.svelte";
     import ZnAddBookmark from "$lib/modal/zn-bookmark.modal.svelte";
-
     import { onMount } from "svelte";
     import { apiFetch } from "$lib/api.js";
-    import ZnToggle from "$lib/widgets/zn-toggle.svelte";
     import { editMode } from "$lib/stores.js";
 
-    let modalOpen = $state(false);
+    type Bookmark = { id: number; url: string; title: string; tags: string };
 
-    let bookmarks = $state<
-        { id: number; url: string; title: string; tags: string }[]
-    >([]);
+    let modalOpen = $state(false);
+    let editingBookmark = $state<Bookmark | null>(null);
+    let bookmarks = $state<Bookmark[]>([]);
 
     onMount(async () => {
         const { data } = await apiFetch("/bookmarks");
         bookmarks = data;
     });
 
-    async function addBookmark({ url, name }: { url: string; name: string }) {
-        console.log("Button clicked");
-        await apiFetch("/bookmarks", {
-            method: "POST",
-            body: JSON.stringify({
-                url,
-                title: name,
-            }),
-        });
+    async function refresh() {
         const { data } = await apiFetch("/bookmarks");
         bookmarks = data;
     }
 
-    async function removeBookmark(id: number) {
+    function openCreate() {
+        editingBookmark = null;
+        modalOpen = true;
+    }
+
+    function openEdit(bookmark: Bookmark) {
+        editingBookmark = bookmark;
+        modalOpen = true;
+    }
+
+    async function saveBookmark({
+        id,
+        url,
+        name,
+    }: {
+        id?: number;
+        url: string;
+        name: string;
+    }) {
+        if (id) {
+            await apiFetch(`/bookmarks/${id}`, {
+                method: "PUT",
+                body: JSON.stringify({ url, title: name, tags: [] }),
+            });
+        } else {
+            await apiFetch("/bookmarks", {
+                method: "POST",
+                body: JSON.stringify({ url, title: name }),
+            });
+        }
+        await refresh();
+    }
+
+    async function deleteBookmark(id: number) {
         await apiFetch(`/bookmarks/${id}`, { method: "DELETE" });
-        const { data } = await apiFetch("/bookmarks");
-        bookmarks = data;
+        await refresh();
     }
 </script>
 
@@ -43,19 +65,18 @@
         <ZnBookmark
             name={bookmark.title}
             url={bookmark.url}
-            onremove={() => removeBookmark(bookmark.id)}
+            onedit={() => openEdit(bookmark)}
         />
     {/each}
     {#if $editMode}
-        <ZnBookmark
-            name="Add Bookmark"
-            onclick={() => (modalOpen = true)}
-        />
+        <ZnBookmark name="Add Bookmark" onclick={openCreate} />
     {/if}
 </div>
+
 <ZnAddBookmark
     open={modalOpen}
+    editing={editingBookmark}
     onclose={() => (modalOpen = false)}
-    onsubmit={addBookmark}
+    onsubmit={saveBookmark}
+    ondelete={deleteBookmark}
 />
-

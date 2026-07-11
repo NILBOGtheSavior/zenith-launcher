@@ -16,6 +16,7 @@
     };
 
     let modalOpen = $state(false);
+    let editingService = $state<Service | null>(null);
     let services = $state<Service[]>([]);
 
     onMount(async () => {
@@ -23,27 +24,49 @@
         services = data;
     });
 
-    async function addService({
-        containerName,
-        name,
-        url,
-    }: {
-        containerName: string;
-        name: string;
-        url: string;
-    }) {
-        await apiFetch("/docker/services", {
-            method: "POST",
-            body: JSON.stringify({ containerName, name, url }),
-        });
+    async function refresh() {
         const { data } = await apiFetch("/docker/services");
         services = data;
     }
 
-    async function removeService(id: number) {
+    function openCreate() {
+        editingService = null;
+        modalOpen = true;
+    }
+
+    function openEdit(service: Service) {
+        editingService = service;
+        modalOpen = true;
+    }
+
+    async function saveService({
+        id,
+        containerName,
+        name,
+        url,
+    }: {
+        id?: number;
+        containerName: string;
+        name: string;
+        url: string;
+    }) {
+        if (id) {
+            await apiFetch(`/docker/services/${id}`, {
+                method: "PUT",
+                body: JSON.stringify({ containerName, name, url }),
+            });
+        } else {
+            await apiFetch("/docker/services", {
+                method: "POST",
+                body: JSON.stringify({ containerName, name, url }),
+            });
+        }
+        await refresh();
+    }
+
+    async function deleteService(id: number) {
         await apiFetch(`/docker/services/${id}`, { method: "DELETE" });
-        const { data } = await apiFetch("/docker/services");
-        services = data;
+        await refresh();
     }
 </script>
 
@@ -54,18 +77,17 @@
             name={service.name}
             url={service.url}
             status={service.status}
-            onremove={() => removeService(service.id)}
+            onedit={() => openEdit(service)}
         />
     {/each}
     {#if $editMode}
-        <ZnService
-            name="Add Service"
-            onclick={() => (modalOpen = true)}
-        />
+        <ZnService name="Add Service" onclick={openCreate} />
     {/if}
 </div>
 <ZnAddService
     open={modalOpen}
+    editing={editingService}
     onclose={() => (modalOpen = false)}
-    onsubmit={addService}
+    onsubmit={saveService}
+    ondelete={deleteService}
 />

@@ -2,7 +2,13 @@
     import ZnModal from "$lib/components/zn-modal.svelte";
     import { apiFetch } from "$lib/api.js";
 
-    let { open = false, onclose, onsubmit } = $props();
+    let {
+        open = false,
+        editing = null,
+        onclose,
+        onsubmit,
+        ondelete,
+    } = $props();
 
     type Container = {
         id: string;
@@ -15,7 +21,7 @@
 
     let containers = $state<Container[]>([]);
     let loading = $state(false);
-    let selectedContainer = $state<Container | null>(null);
+    let selectedContainer = $state<string | null>(null);
     let name = $state("");
     let url = $state("");
 
@@ -33,15 +39,21 @@
 
     $effect(() => {
         if (open) {
-            loadContainers();
-            selectedContainer = null;
-            name = "";
-            url = "";
+            if (editing) {
+                selectedContainer = editing.container_name;
+                name = editing.name;
+                url = editing.url ?? "";
+            } else {
+                loadContainers();
+                selectedContainer = null;
+                name = "";
+                url = "";
+            }
         }
     });
 
     function selectContainer(container: Container) {
-        selectedContainer = container;
+        selectedContainer = container.name;
         name = container.name;
 
         const publicPort = container.ports.find((p) => p.publicPort)?.publicPort;
@@ -53,16 +65,33 @@
     function handleSubmit() {
         if (!selectedContainer || !name) return;
         onsubmit({
-            containerName: selectedContainer.name,
+            id: editing?.id,
+            containerName: selectedContainer,
             name,
             url,
         });
         onclose();
     }
+
+    function handleDelete() {
+        ondelete?.(editing.id);
+        onclose();
+    }
 </script>
 
-<ZnModal {open} {onclose} title="Add Service">
-    {#if loading}
+<ZnModal {open} {onclose} title={editing ? "Edit Service" : "Add Service"}>
+    {#if editing}
+        <input class="zn-input" placeholder="Name" bind:value={name} />
+        <input
+            class="zn-input"
+            placeholder="URL"
+            bind:value={url}
+        />
+        <div class="zn-modal-actions">
+            <button class="zn-btn-danger" onclick={handleDelete}>Delete</button>
+            <button class="zn-btn-accent" onclick={handleSubmit}>Save</button>
+        </div>
+    {:else if loading}
         <p class="zn-hint">Loading containers...</p>
     {:else if containers.length === 0}
         <p class="zn-hint">No running containers found.</p>
@@ -187,5 +216,20 @@
     }
     .zn-btn-accent:hover {
         opacity: 0.85;
+    }
+    .zn-btn-danger {
+        background: transparent;
+        color: var(--error);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: opacity 0.15s;
+    }
+
+    .zn-btn-danger:hover {
+        opacity: 0.7;
     }
 </style>
