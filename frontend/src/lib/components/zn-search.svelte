@@ -74,40 +74,41 @@
 </script>
 
 <div class="zn-search">
-    <svg
-        class="zn-search-icon"
-        viewBox="0 0 16 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <circle
-            cx="6.5"
-            cy="6.5"
-            r="4.5"
-            stroke="var(--comment)"
-            stroke-width="1.2"
+    <div class="zn-search-bar">
+        <svg
+            class="zn-search-icon"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <circle
+                cx="6.5"
+                cy="6.5"
+                r="4.5"
+                stroke="var(--comment)"
+                stroke-width="1.2"
+            />
+            <path
+                d="M10.5 10.5L14 14"
+                stroke="var(--comment)"
+                stroke-width="1.2"
+                stroke-linecap="round"
+            />
+        </svg>
+        <input
+            placeholder="search or type a command..."
+            id="search-input"
+            bind:this={searchInput}
+            bind:value={query}
+            oninput={handleInput}
+            onkeydown={handleKeydown}
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            name="zn-search-{Math.random()}"
         />
-        <path
-            d="M10.5 10.5L14 14"
-            stroke="var(--comment)"
-            stroke-width="1.2"
-            stroke-linecap="round"
-        />
-    </svg>
-    <input
-        placeholder="search or type a command..."
-        id="search-input"
-        bind:this={searchInput}
-        bind:value={query}
-        oninput={handleInput}
-        onkeydown={handleKeydown}
-        autocomplete="off"
-        autocorrect="off"
-        spellcheck="false"
-        name="zn-search-{Math.random()}"
-    />
-
-    <span class="zn-search-tag">/ cmd</span>
+        <span class="zn-search-tag">/ cmd</span>
+    </div>
 
     {#if suggestions.length > 0}
         <ul class="zn-search-dropdown">
@@ -127,16 +128,13 @@
 </div>
 
 <style>
-
     .zn-search {
-        display: flex;
-        position: relative;
         align-items: center;
         background: var(--panel);
         border: 1px solid transparent;
         border-radius: 12px;
         padding: 0 16px;
-        height: 52px;
+        min-height: 52px;
         gap: 12px;
         margin-bottom: 28px;
         transition: border-color 0.15s;
@@ -144,6 +142,14 @@
 
     .zn-search:focus-within {
         border-color: var(--comment);
+    }
+
+    .zn-search-bar {
+        width: 100%;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     .zn-search-icon {
@@ -176,84 +182,22 @@
         flex-shrink: 0;
     }
 
-    .zn-engine-picker {
-        position: relative;
-        flex-shrink: 0;
-    }
-
-    .zn-engine-btn {
-        background: var(--background);
-        color: var(--comment);
-        border: 1px solid transparent;
-        border-radius: 6px;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        padding: 4px 10px;
-        cursor: pointer;
-        transition: border-color 0.15s;
-    }
-
-    .zn-engine-btn:hover {
-        border-color: var(--comment);
-    }
-
-    .zn-engine-menu {
-        position: absolute;
-        top: calc(100% + 6px);
-        right: 0;
-        background: var(--background);
-        border-radius: 8px;
-        padding: 4px;
-        list-style: none;
-        min-width: 120px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        z-index: 10;
-    }
-
-    .zn-engine-option {
-        width: 100%;
-        text-align: left;
-        background: transparent;
-        border: none;
-        color: var(--comment);
-        font-family: "JetBrains Mono", monospace;
-        font-size: 12px;
-        padding: 6px 10px;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-
-    .zn-engine-option:hover {
-        background: var(--panel);
-        color: var(--foreground);
-    }
-
-    .zn-engine-option.active {
-        color: var(--accent);
-    }
-
     .zn-search-dropdown {
-        position: absolute;
-        top: calc(100% + 6px);
-        left: 0;
-        right: 0;
-        background: var(--panel);
         border-radius: 12px;
-        padding: 6px;
         list-style: none;
         z-index: 10;
-        backdrop-filter: blur(15px);
+        /* max-height: 100px; */
+        /* overflow-y: scroll; */
     }
 
     .zn-suggestion {
         width: 100%;
         text-align: left;
         background: transparent;
-        border: none;
-        color: var(--foreground);
+        border-top: solid 1px var(--comment);
+        color: var(--comment);
         font-size: 14px;
-        padding: 10px 12px;
-        border-radius: 8px;
+        padding: 10px;
         cursor: pointer;
         font-family: inherit;
     }
