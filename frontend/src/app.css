@@ -117,14 +117,15 @@ body {
         opacity 0.3s ease;
     opacity: 0;
 }
-
-.zn-settings-tray>* {
+.zn-settings-tray > * {
     flex-shrink: 0;
 }
-
 .zn-settings-tray.open {
-    max-width: 200px;
+    max-width: 500px;
     opacity: 1;
+}
+.zn-settings-tray.overflow-visible {
+    overflow: visible;
 }
 
 .zn-lbl {
@@ -262,42 +263,6 @@ button.zn-card:hover {
     font-size: 10px;
     font-family: "JetBrains Mono", monospace;
     color: #eae6da;
-}
-
-/*********************************************/
-/* interactable                              */
-/*********************************************/
-
-/* These should be modularized at some point */
-
-.zn-slider-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.zn-slider {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    width: 80px;
-    height: 3px;
-    border-radius: 2px;
-    background: #2a2a2e;
-    outline: none;
-    cursor: pointer;
-}
-
-.zn-slider::-moz-range-thumb,
-.zn-slider::-webkit-slider-thumb {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(foreground);
-    border: 1px solid #0d0d0f;
-    cursor: pointer;
 }
 
 /*********************************************/

@@ -7,11 +7,31 @@
     import ZnService from "$lib/sections/zn-service.section.svelte";
     import ZnBookmark from "$lib/sections/zn-bookmark.section.svelte";
 
+    import ZnDropdown from "$lib/widgets/zn-dropdown.svelte";
     import ZnToggle from "$lib/widgets/zn-toggle.svelte";
+    import ZnSlider from "$lib/widgets/zn-slider.svelte";
+
     import { editMode } from "$lib/stores.js";
+    import { searchEngine } from "$lib/stores.js";
+    import { ENGINES, saveSearchEngine, loadSearchEngine } from "$lib/search-engines.js"
 
     let settingsOpen = $state(false);
     let servicesSection: ReturnType<typeof ZnService>;
+    let brightness = $state(65);
+
+    let overflowVisible = $state(false);
+
+    function handleTrayTransitionEnd(e: TransitionEvent) {
+        if (e.propertyName === "max-width" && settingsOpen) {
+            overflowVisible = true;
+        }
+    }
+
+    $effect(() => {
+        if (!settingsOpen) {
+            overflowVisible = false;
+        }
+    });
 </script>
 
 <div class="zn">
@@ -33,7 +53,18 @@
                     />
                 </svg>
             </button>
-            <div class="zn-settings-tray" class:open={settingsOpen}>
+            <div
+                class="zn-settings-tray"
+                class:open={settingsOpen}
+                class:overflow-visible={overflowVisible}
+                ontransitionend={handleTrayTransitionEnd}
+            >
+                <span class="zn-lbl">Search Engine</span>
+                <ZnDropdown
+                    options={ENGINES}
+                    value={$searchEngine}
+                    onchange={saveSearchEngine}
+                />
                 <span class="zn-lbl">Edit Mode</span>
                 <ZnToggle bind:active={$editMode} />
             </div>
@@ -72,16 +103,7 @@
         </div>
         <div class="zn-footer-group">
             <span class="zn-footer-lbl">brightness</span>
-            <div class="zn-slider-wrap">
-                <input
-                    class="zn-slider"
-                    type="range"
-                    min="0"
-                    max="100"
-                    value="65"
-                    id="brightness"
-                />
-            </div>
+            <ZnSlider bind:value={brightness} />
         </div>
         <span class="zn-footer-id">zenith · local</span>
     </div>

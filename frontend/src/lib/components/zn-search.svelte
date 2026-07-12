@@ -1,18 +1,8 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { apiFetch } from "$lib/api.js";
-
-    const ENGINES = [
-        { id: "duckduckgo", label: "DuckDuckGo" },
-        { id: "google", label: "Google" },
-        { id: "bing", label: "Bing" },
-    ];
-
-    const SEARCH_URLS: Record<string, (q: string) => string> = {
-        google: (q) => `https://www.google.com/search?q=${encodeURIComponent(q)}`,
-        duckduckgo: (q) => `https://duckduckgo.com/?q=${encodeURIComponent(q)}`,
-        bing: (q) => `https://bing.com/search?q=${encodeURIComponent(q)}`,
-    };
+    import { searchEngine } from "$lib/stores.js";
+    import { SEARCH_URLS, loadSearchEngine } from "$lib/search-engines.js";
 
     let searchInput: HTMLInputElement;
     let query = $state("");
@@ -24,12 +14,7 @@
 
     onMount(async () => {
         searchInput?.focus();
-        try {
-            const { data } = await apiFetch("/settings/search_engine");
-            if (data.value) engine = data.value;
-        } catch (err) {
-            console.error("Failed to load search engine setting:", err);
-        }
+        await loadSearchEngine();
     });
 
     async function selectEngine(id: string) {
@@ -68,7 +53,7 @@
     }
 
     function runSearch(q: string) {
-        const buildUrl = SEARCH_URLS[engine] ?? SEARCH_URLS.google;
+        const buildUrl = SEARCH_URLS[$searchEngine] ?? SEARCH_URLS.google;
         window.location.href = buildUrl(q);
     }
 
@@ -121,30 +106,6 @@
         spellcheck="false"
         name="zn-search-{Math.random()}"
     />
-
-    <div class="zn-engine-picker">
-        <button
-            class="zn-engine-btn"
-            onclick={() => (enginePickerOpen = !enginePickerOpen)}
-        >
-            {ENGINES.find((e) => e.id === engine)?.label ?? "Google"}
-        </button>
-        {#if enginePickerOpen}
-            <ul class="zn-engine-menu">
-                {#each ENGINES as opt}
-                    <li>
-                        <button
-                            class="zn-engine-option"
-                            class:active={opt.id === engine}
-                            onclick={() => selectEngine(opt.id)}
-                        >
-                            {opt.label}
-                        </button>
-                    </li>
-                {/each}
-            </ul>
-        {/if}
-    </div>
 
     <span class="zn-search-tag">/ cmd</span>
 
