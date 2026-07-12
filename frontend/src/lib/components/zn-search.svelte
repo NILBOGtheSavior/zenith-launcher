@@ -127,8 +127,53 @@
 </div>
 
 <style>
+
     .zn-search {
+        display: flex;
         position: relative;
+        align-items: center;
+        background: var(--panel);
+        border: 1px solid transparent;
+        border-radius: 12px;
+        padding: 0 16px;
+        height: 52px;
+        gap: 12px;
+        margin-bottom: 28px;
+        transition: border-color 0.15s;
+    }
+
+    .zn-search:focus-within {
+        border-color: var(--comment);
+    }
+
+    .zn-search-icon {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+
+    .zn-search input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        color: var(--foreground);
+    }
+
+    .zn-search input::placeholder {
+        color: var(--comment);
+    }
+
+    .zn-search-tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--comment);
+        background: var(--background);
+        border: 1px solid rgba(93, 202, 165, 0.2);
+        border-radius: 6px;
+        padding: 3px 8px;
+        flex-shrink: 0;
     }
 
     .zn-engine-picker {
