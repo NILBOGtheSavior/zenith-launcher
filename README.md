@@ -18,7 +18,7 @@ The database is SQLite for a quick lightweight storage and persistence.
 
 ## Components
 
-- [ ] Search bar
+- [X] Search bar
     - Searches the web using search engine of choice
     - Runs commands to control docker services, led matrix, and the homepage itself
 - [ ] Docker service manager
@@ -34,4 +34,16 @@ The database is SQLite for a quick lightweight storage and persistence.
 Type commands directly in the search bar:
 - `/restart <service name>` - Restarts a docker container
 - `/matrix <mode>` - Switches the LED matrix to specific mode
+
+## Todo
+
+- [ ] Responsive design
+- [ ] Daily quote - fun fact - joke widget
+- [ ] Weather
+- [ ] Movable widgets
+- [ ] Wallpaper picker
+- [ ] News widget
+- [ ] Todo list
+- [ ] Animate height changes
+- [ ] Add scrolling to search suggestions
 
