@@ -2,6 +2,8 @@
 
 A custom launcher for the Zenith Home Server. Built to run on Raspberry Pi 5 with [Zenith configuration]().
 
+![Homepage](.docs/home.png)
+
 ## Application overview
 
 ### Frontend (Svelte)
