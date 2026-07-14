@@ -1,6 +1,6 @@
 <script lang="ts">
     import ZnClock from "$lib/components/zn-clock.svelte";
-    import ZnNowPlaying from "$lib/components/zn-now-playing.svelte";
+    import ZnWeather from "$lib/components/zn-weather.svelte";
     import ZnSystemInfo from "$lib/components/zn-system-info.svelte";
     import ZnSearch from "$lib/components/zn-search.svelte";
     import ZnSettings from "$lib/components/zn-settings.svelte";
@@ -13,6 +13,21 @@
 
     let servicesSection: ReturnType<typeof ZnService>;
     let brightness = $state(65);
+
+    import { onMount } from "svelte";
+    import { apiFetch } from "$lib/api.js";
+
+    onMount(async () => {
+        try {
+            const { data } = await apiFetch("/wallpapers/active");
+            if (data.length > 0) {
+                const random = data[Math.floor(Math.random() * data.length)];
+                document.body.style.backgroundImage = `url(/api/wallpaper-files/${random.filename})`;
+            }
+        } catch (err) {
+            console.error("Failed to load wallpaper:", err);
+        }
+    });
 </script>
 
 <div class="zn">
@@ -26,7 +41,7 @@
     <ZnBookmark />
 
     <div class="zn-row">
-        <ZnNowPlaying />
+        <ZnWeather />
         <div class="zn-col">
             <ZnSystemInfo />
             <ZnClock />

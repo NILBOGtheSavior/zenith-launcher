@@ -2,6 +2,7 @@
     import ZnDropdown from "$lib/widgets/zn-dropdown.svelte";
     import ZnToggle from "$lib/widgets/zn-toggle.svelte";
     import ZnSlider from "$lib/widgets/zn-slider.svelte";
+    import ZnWallpaperModal from "$lib/modal/zn-wallpaper.modal.svelte";
 
     import { editMode } from "$lib/stores.js";
     import { searchEngine } from "$lib/stores.js";
@@ -9,6 +10,7 @@
 
     let settingsOpen = $state(false);
     let overflowVisible = $state(false);
+    let wallpaperModalOpen = $state(false);
 
     function handleTrayTransitionEnd(e: TransitionEvent) {
         if (e.propertyName === "max-width" && settingsOpen) {
@@ -45,6 +47,31 @@
         class:overflow-visible={overflowVisible}
         ontransitionend={handleTrayTransitionEnd}
     >
+        <button
+            class="zn-wallpaper-icon"
+            onclick={() => (wallpaperModalOpen = true)}
+            aria-label="Manage wallpapers"
+        >
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect
+                    x="3"
+                    y="4"
+                    width="18"
+                    height="16"
+                    rx="2"
+                    stroke="var(--comment)"
+                    stroke-width="1.5"
+                />
+                <circle cx="8.5" cy="9.5" r="1.5" stroke="var(--comment)" stroke-width="1.5" />
+                <path
+                    d="M3 16l5-5 4 4 3-3 6 6"
+                    stroke="var(--comment)"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </button>
         <span class="zn-lbl">Search Engine</span>
         <ZnDropdown
             options={ENGINES}
@@ -67,6 +94,10 @@
             /></svg
         >
     </button>
+    <ZnWallpaperModal
+        open={wallpaperModalOpen}
+        onclose={() => (wallpaperModalOpen = false)}
+    />
 </div>
 
 <style>
@@ -133,5 +164,20 @@
 
     .zn-settings-tray.overflow-visible {
         overflow: visible;
+    }
+
+    .zn-wallpaper-icon {
+        all: unset;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .zn-wallpaper-icon svg {
+        width: 100%;
+        height: 100%;
     }
 </style>
