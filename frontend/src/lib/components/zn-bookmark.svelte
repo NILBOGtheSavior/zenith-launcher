@@ -73,6 +73,7 @@
         color: var(--comment);
         width: 15px;
         height: 15px;
+        font-size: 10px;
     }
 
     .zn-bookmark-icon img {
